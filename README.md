@@ -35,7 +35,10 @@ python app.py           # or: docker run -p 7860:7860 laysum
 
 Open http://localhost:7860. The first run downloads the base model `google/flan-t5-base`
 (about 1 GB, pinned to one commit); the adapter ships in this repository. No account or
-token is needed. The same function is an API:
+token is needed. On Linux without a GPU, run
+`pip install --index-url https://download.pytorch.org/whl/cpu torch==2.13.0` first: plain
+`pip` installs the CUDA build of torch there (about 5 GB with its libraries). The same
+function is an API:
 
 ```python
 from gradio_client import Client
