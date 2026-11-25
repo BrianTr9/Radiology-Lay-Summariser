@@ -24,9 +24,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "src"), str(ROOT / "training"), str(ROOT)]
 
+from dataset import SOURCE_COLUMN, TARGET_COLUMN, evaluation_tiers, load_laysumm  # noqa: E402
 from transformers import AutoTokenizer  # noqa: E402
 
-from dataset import SOURCE_COLUMN, TARGET_COLUMN, evaluation_tiers, load_laysumm  # noqa: E402
 from laysum.checks import LEVELS, check, strip_junk_tail  # noqa: E402
 from laysum.writer import MAX_SOURCE_TOKENS, TASK_PROMPT, truncation_point  # noqa: E402
 

@@ -27,12 +27,12 @@ sys.path[:0] = [str(ROOT / "src"), str(ROOT / "training"), str(ROOT)]
 
 import torch  # noqa: E402
 import transformers  # noqa: E402
-
 from autopsy import reading_grade  # noqa: E402
 from dataset import SOURCE_COLUMN, TARGET_COLUMN, evaluation_tiers, load_laysumm  # noqa: E402
+from utils import mean_rouge, rouge_per_example  # noqa: E402
+
 from laysum import writer as writer_module  # noqa: E402
 from laysum.writer import FlanT5Writer  # noqa: E402
-from utils import mean_rouge, rouge_per_example  # noqa: E402
 
 
 def main():

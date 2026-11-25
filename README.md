@@ -1,14 +1,47 @@
+---
+title: Radiology Lay Summariser
+emoji: 🩻
+colorFrom: blue
+colorTo: gray
+sdk: gradio
+sdk_version: 6.32.0
+python_version: "3.12"
+app_file: app.py
+pinned: false
+license: mit
+short_description: Plain-language drafts of chest X-ray reports for review
+---
+
 # Radiology Lay Summariser
 
 A research prototype that drafts a plain-language summary of a chest X-ray report for a
 clinician to review, and points out where the draft may have lost a negation, lost the
 report's degree of certainty, or missed the end of a long report.
 
-> **Status: work in progress.** The writer model is trained and evaluated; the review
-> flags are written and measured; the demo app is not built yet.
+> **Status: work in progress.** The writer is trained and evaluated, the review flags are
+> measured, and the app runs locally and in Docker; the hosted demo and the manual audit of
+> the flags are next.
 >
 > **Research use only.** Not a medical device and not for diagnosis or patient care.
 > Do not paste reports that contain personal information.
+
+## Run it
+
+```bash
+git clone https://github.com/BrianTr9/Radiology-Lay-Summariser.git && cd Radiology-Lay-Summariser
+pip install -e .        # Python 3.12; or: docker build -t laysum .
+python app.py           # or: docker run -p 7860:7860 laysum
+```
+
+Open http://localhost:7860. The first run downloads the base model `google/flan-t5-base`
+(about 1 GB, pinned to one commit); the adapter ships in this repository. No account or
+token is needed. The same function is an API:
+
+```python
+from gradio_client import Client
+Client("http://localhost:7860").predict("Cardiomegaly. No pneumothorax.", api_name="/summarize")
+# {"summary": "...", "decision": "PASS" | "REVIEW", "flags": [...], "meta": {...}}
+```
 
 ## How it works
 
@@ -45,9 +78,10 @@ report ─► writer: FLAN-T5-base + LoRA (r = 16) ─► rule-based flags ─�
 |---|---|
 | `models/lora_r16/` | The trained LoRA adapter (7.1 MB) and its [model card](models/lora_r16/README.md) |
 | `training/` | Data loading, LoRA and full fine-tuning, evaluation tiers, Slurm scripts |
-| `src/laysum/` | The product code: `writer.py`, `checks.py`, `pipeline.py` |
+| `app.py`, `Dockerfile` | The Gradio app (review screen and `summarize` API) and its CPU image |
+| `src/laysum/` | The product code: `writer.py`, `checks.py`, `pipeline.py`, and the self-written `examples.py` |
 | `eval/` | Scripts that produce every number in this README |
-| `tests/` | Unit tests; all example texts are self-written |
+| `tests/` | Unit tests with a fake writer; `LAYSUM_GOLDEN=1` also runs the real model on the examples |
 
 ## Data
 

@@ -136,3 +136,27 @@ def test_a_changed_adapter_is_refused(tmp_path):
     (tmp_path / "adapter_model.safetensors").write_bytes(b"not the evaluated weights")
     with pytest.raises(ValueError, match="SHA-256"):
         writer.FlanT5Writer.from_pretrained(tmp_path)
+
+
+def test_highlight_marks_flagged_sentences_and_keeps_the_text():
+    report = "Cardiomegaly. No pneumothorax. Possible effusion."
+    flags = [{"code": "NEGATION_LOST", "source_spans": [[14, 30]]},
+             {"code": "CERTAINTY_LOST", "source_spans": [[31, 49]]},
+             {"code": "INPUT_TRUNCATED", "source_spans": [[31, 49]]}]
+    pieces = pipeline.highlight(report, flags)
+    assert "".join(text for text, _ in pieces) == report
+    assert ("No pneumothorax.", "NEGATION_LOST") in pieces
+    assert ("Possible effusion.", "CERTAINTY_LOST + INPUT_TRUNCATED") in pieces
+    assert pieces[0] == ("Cardiomegaly. ", None)
+
+
+def test_highlight_without_flags_is_one_plain_piece():
+    assert pipeline.highlight("No pneumothorax.", []) == [("No pneumothorax.", None)]
+
+
+def test_examples_are_unique_and_the_app_ones_exist():
+    from laysum.examples import APP_EXAMPLES, CASES, by_name
+
+    assert len({c.name for c in CASES}) == len({c.report for c in CASES}) == len(CASES)
+    for name in APP_EXAMPLES:
+        assert by_name(name).decision in ("PASS", "REVIEW")

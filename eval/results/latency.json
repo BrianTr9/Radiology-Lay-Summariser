@@ -1,0 +1,34 @@
+{
+  "note": "docker run --cpus 4 (Docker Desktop, Apple M-series host)",
+  "url_is_local": true,
+  "model_version": "google/flan-t5-base@7bcac572ce56 + lora_r16 sha256:273ae336215a",
+  "rounds": 5,
+  "reports_up_to_512_tokens": {
+    "n": 35,
+    "p50": 2.15,
+    "p95": 3.02,
+    "mean": 2.23
+  },
+  "report_over_512_tokens": {
+    "n": 5,
+    "p50": 42.3,
+    "p95": 42.58,
+    "mean": 42.28
+  },
+  "per_case_median": {
+    "normal": 2.05,
+    "finding_and_negation": 1.09,
+    "hedge_kept": 2.1,
+    "devices": 2.27,
+    "post_operative": 3.02,
+    "hedge_paraphrased": 2.85,
+    "negations_merged": 2.04,
+    "too_long": 42.3
+  },
+  "host": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 11,
+    "docker": "11 CPUs, 8217305088 bytes"
+  }
+}

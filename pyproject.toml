@@ -21,3 +21,11 @@ eval = { file = ["eval/requirements.txt"] }
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["training"]  # the trained-model code is kept as it ran (Python 3.11)
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]

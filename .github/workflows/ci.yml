@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install (CPU torch, pinned versions)
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.13.0
+          pip install -r requirements.txt -r eval/requirements.txt pytest==9.2.0 ruff==0.17.6
+          pip install --no-deps -e .
+      - run: ruff check .
+      - run: pytest -q
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t laysum .
+      - name: Run the container and call the API
+        run: |
+          docker run -d --name laysum -p 7860:7860 laysum
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:7860/ > /dev/null && break; sleep 5; done
+          pip install gradio_client==2.7.2
+          python - <<'PY'
+          from gradio_client import Client
+          result = Client("http://127.0.0.1:7860").predict("Cardiomegaly. No pneumothorax.", api_name="/summarize")
+          print(result)
+          assert result["decision"] in ("PASS", "REVIEW") and result["summary"]
+          PY
+      - if: always()
+        run: docker logs laysum || true
