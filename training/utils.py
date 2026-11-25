@@ -1,5 +1,5 @@
 """
-utils.py - evaluation helpers shared by train.py and predict.py: ROUGE, batched generation,
+utils.py - evaluation helpers used by train.py and the eval/ scripts: ROUGE, batched generation,
 and resource profiling (peak VRAM, tokens/s, latency).
 
 Author : Trung Bao Truong (Brian Truong), student ID 49846627 (s4984662)

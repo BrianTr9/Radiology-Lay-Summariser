@@ -14,7 +14,7 @@ Description
 
     1. Case selection. Pool = validation rows of the `clean` tier (report never seen in train
        and a different study), minus BIMCV rows whose session repeats (mismatched pairs),
-       minus the rows already shown by predict.py, minus reports shorter than 8 words. One
+       minus four rows already used as worked examples, minus reports shorter than 8 words. One
        case is drawn from each of five strata:
          A  full-FT ROUGE-Lsum >= 0.70 but negation or hedging differs between source and output
          B  the source mentions an acute finding and the output is much shorter than the source
@@ -62,7 +62,7 @@ from utils import split_sentences
 # Run folders written by slurm/submit_final.sh.
 RUN_DIRS = {"zeroshot": "zeroshot", "lora_r8": "lora_r8_lr3e-3",
             "lora_r16": "lora_r16_lr3e-3", "full_ft": "full_lr3e-4"}
-# Validation rows that predict.py draws by default (seed 0), left out of the pool.
+# Validation rows already used as worked examples (seed 0), left out of the pool.
 DEMO_ROWS = (6412, 6998, 673, 4307)
 
 NEGATION = ["no", "not", "without", "absent", "negative", "neither", "nor", "free of", "n't"]
@@ -227,7 +227,7 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
     parser.add_argument("--out_dir", default="autopsy")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--exclude", type=int, nargs="*", default=list(DEMO_ROWS),
-                        help="validation rows left out of the pool (rows shown by predict.py)")
+                        help="validation rows left out of the pool (worked examples)")
     parser.add_argument("--self_check", action="store_true")
     args = parser.parse_args(argv)
     if args.self_check:
