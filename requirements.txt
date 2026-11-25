@@ -1,7 +1,7 @@
 # Runtime dependencies of the demo app and the package (Hugging Face Spaces reads this file).
 # Versions of torch, transformers, tokenizers, huggingface_hub, peft and sentencepiece are the
 # ones the writer was trained and evaluated with (training/requirements.txt).
-# gradio and spaces are the latest releases on 2026-11-26; check them on the Space (Phase 3).
+# gradio and spaces are the latest releases at the time of pinning; not yet run on a Space.
 torch==2.13.0
 transformers==5.19.0
 tokenizers==0.23.3

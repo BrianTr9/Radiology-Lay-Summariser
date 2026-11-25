@@ -20,7 +20,7 @@ def test_sentence_split_keeps_decimals():
 
 def test_faithful_draft_passes():
     source = "Opacity in the right lower lobe, likely pneumonia. No pleural effusion."
-    summary = "There is a cloudy area in the lower right lung, probably pneumonia. There is no fluid."
+    summary = "A hazy patch shows low in the right lung, probably pneumonia. There is no fluid."
     assert check(source, summary) == []
 
 

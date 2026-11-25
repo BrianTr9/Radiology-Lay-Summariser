@@ -3,14 +3,14 @@
 Author : Trung Bao Truong (Brian Truong), student ID 49846627 (s4984662)
 AI assistance: drafted with Claude Code; reviewed by the author.
 
-Three flags, each tied to an error seen in the course project's autopsy:
-  INPUT_TRUNCATED  the writer did not read the end of the report (case B);
-  CERTAINTY_LOST   the draft has fewer hedged sentences than the report (case E);
+Three flags, each tied to an error seen in the error audit of the writer (training/autopsy.py):
+  INPUT_TRUNCATED  the writer did not read the end of the report;
+  CERTAINTY_LOST   the draft has fewer hedged sentences than the report;
   NEGATION_LOST    the draft has fewer negated sentences than the report.
 Any flag means the draft needs review. The checks need no model, so they are deterministic
 and every flag can be explained by pointing at the report sentences it is about.
 
-What the checks cannot see: content the draft adds that is not in the report (case A). A
+What the checks cannot see: content the draft adds that is not in the report. A
 lay paraphrase can also hide a negation ("no consolidation" -> "the lungs are clear"), so a
 flag is a reason to look, not proof of an error.
 """
@@ -20,7 +20,7 @@ from typing import List, Optional, Sequence, Tuple
 
 Span = Tuple[int, int]
 
-# Word lists from the course autopsy (autopsy/negation_check.py), plus a few lay words fixed
+# Word lists from the error audit (training/autopsy.py), plus a few lay words fixed
 # before any rate was computed ("none", "nothing", "never"; "maybe", "perhaps", "seem(s)",
 # "unclear", "uncertain", "not sure").
 NEGATION = ("no", "not", "without", "absent", "negative", "neither", "nor", "free of", "n't",

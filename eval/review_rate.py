@@ -3,8 +3,8 @@
 Author : Trung Bao Truong (Brian Truong), student ID 49846627 (s4984662)
 AI assistance: drafted with Claude Code; reviewed by the author.
 
-Runs on CPU, no model: it reuses the stored validation predictions of the course project
-and the official validation split. Rule fixed before running (z_Roadmap.md, Decisions):
+Runs on CPU, no model: it reuses the stored validation predictions of the LoRA r16 run
+(training/) and the official validation split. Rule fixed before running:
   1. On the 5,963 validation rows OUTSIDE the clean tier, compute the REVIEW rate of LoRA
      r16 with sentence-level counting. If it is above 25%, use document-level counting.
   2. Report per-flag and overall REVIEW rates on the clean tier (4,037 rows) with the
@@ -13,7 +13,7 @@ GPT-4o references are scored the same way as a reading aid (they are not ground 
 
 Writes only counts and rates (no dataset text) to eval/results/review_rate.json.
 
-Usage: python eval/review_rate.py --predictions <runs_from_rangpur/lora_r16_lr3e-3/val_predictions.jsonl>
+Usage: python eval/review_rate.py --predictions <val_predictions.jsonl of the LoRA r16 run>
 """
 import argparse
 import json
@@ -22,7 +22,7 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path[:0] = [str(ROOT / "src"), str(ROOT / "training"), str(ROOT)]  # course code: training/ after Phase 1
+sys.path[:0] = [str(ROOT / "src"), str(ROOT / "training"), str(ROOT)]
 
 from transformers import AutoTokenizer  # noqa: E402
 

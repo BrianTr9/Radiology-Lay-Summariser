@@ -106,9 +106,9 @@ def test_truncation_point_with_a_word_tokenizer():
     assert report[cut:].startswith("w5")
 
 
-def _course_module(name):
+def _training_module(name):
     path = ROOT / "training" / f"{name}.py"
-    spec = importlib.util.spec_from_file_location(f"course_{name}", path)
+    spec = importlib.util.spec_from_file_location(f"training_{name}", path)
     module = importlib.util.module_from_spec(spec)
     try:
         spec.loader.exec_module(module)
@@ -118,7 +118,7 @@ def _course_module(name):
 
 
 def test_inference_settings_match_the_training_code():
-    dataset = _course_module("dataset")
+    dataset = _training_module("dataset")
     assert writer.TASK_PROMPT == dataset.TASK_PROMPT
     assert writer.MAX_SOURCE_TOKENS == dataset.MAX_SOURCE_LEN
     assert writer.MAX_NEW_TOKENS == dataset.MAX_TARGET_LEN
