@@ -123,3 +123,9 @@ def test_inference_settings_match_the_training_code():
     assert writer.MAX_SOURCE_TOKENS == dataset.MAX_SOURCE_LEN
     assert writer.MAX_NEW_TOKENS == dataset.MAX_TARGET_LEN
     assert writer.build_source_text("  x ") == dataset.build_source_text("  x ")
+
+
+def test_revisions_are_pinned_or_waiting_for_the_upload():
+    import re
+    assert re.fullmatch(r"[0-9a-f]{40}", writer.BASE_REVISION)
+    assert writer.ADAPTER_REVISION is None or re.fullmatch(r"[0-9a-f]{40}", writer.ADAPTER_REVISION)

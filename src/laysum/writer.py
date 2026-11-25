@@ -13,7 +13,12 @@ package (checks, pipeline) and its tests need none of them.
 from dataclasses import dataclass
 from typing import Optional, Protocol
 
+# Every model reference lives here. The base model has not changed since 2023-07-17.
+# ADAPTER_REVISION is the commit printed by scripts/publish_adapter.py after the upload.
 BASE_MODEL = "google/flan-t5-base"
+BASE_REVISION = "7bcac572ce56db69c1ea7c8af255c5d7c9672fc2"
+ADAPTER_REPO = "BrianTr9/radiology-lay-summariser-lora-r16"
+ADAPTER_REVISION = None
 TASK_PROMPT = ("Rewrite the following radiology report in plain language that a patient can "
                "understand:")
 MAX_SOURCE_TOKENS = 512
@@ -58,11 +63,15 @@ class FlanT5Writer:
         self.model, self.tokenizer, self.version, self.device = model, tokenizer, version, device
 
     @classmethod
-    def from_pretrained(cls, adapter: str, base: str = BASE_MODEL,
-                        base_revision: Optional[str] = None,
-                        adapter_revision: Optional[str] = None,
+    def from_pretrained(cls, adapter: str = ADAPTER_REPO, base: str = BASE_MODEL,
+                        base_revision: Optional[str] = BASE_REVISION,
+                        adapter_revision: Optional[str] = ADAPTER_REVISION,
                         device: Optional[str] = None) -> "FlanT5Writer":
-        """Load the base model, apply the adapter at `adapter` (a folder or a Hub id) and merge."""
+        """Load the base model, apply the adapter and merge it.
+
+        `adapter` is a Hub id or a local folder; a local folder has no revision, so pass
+        adapter_revision=None for it.
+        """
         import torch
         from peft import PeftModel
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
