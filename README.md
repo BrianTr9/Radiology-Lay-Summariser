@@ -15,15 +15,36 @@ short_description: Plain-language drafts of chest X-ray reports for review
 # Radiology Lay Summariser
 
 A research prototype that drafts a plain-language summary of a chest X-ray report for a
-clinician to review, and points out where the draft may have lost a negation, lost the
-report's degree of certainty, or missed the end of a long report.
+clinician to check, and sends the draft to **REVIEW** when it may have lost a negation, lost
+the report's uncertainty, or missed the end of a long report.
 
-> **Status: work in progress.** The writer is trained and evaluated, the review flags are
-> measured, and the app runs locally and in Docker; the hosted demo and the manual audit of
-> the flags are next.
->
+**[Try the demo](https://huggingface.co/spaces/BrianTr9/radiology-lay-summariser)** (Hugging
+Face ZeroGPU; signed-in visitors get more GPU time) · or run it locally with the three
+commands below.
+
 > **Research use only.** Not a medical device and not for diagnosis or patient care.
 > Do not paste reports that contain personal information.
+
+![The review screen: a REVIEW decision with its reason, the draft, and the report sentence the flag points at](docs/review_screen.png)
+
+*The screen shows a flag doing its job and its limit at once. The draft keeps the
+uncertainty ("we can't completely rule out cancer"), but in words the rule's list does not
+know, so the flag is a reason to look, not proof of an error.*
+
+## How it works
+
+```
+report ─► writer: FLAN-T5-base + LoRA (r = 16) ─► rule-based flags ─► PASS | REVIEW
+```
+
+- **Writer.** FLAN-T5-base (248M parameters) fine-tuned with LoRA on 150k report and
+  lay-summary pairs; 0.7% of the parameters are trained. The adapter is merged at load time.
+- **Flags.** `INPUT_TRUNCATED` (the report is longer than the 512 tokens the writer reads),
+  `NEGATION_LOST` and `CERTAINTY_LOST` (the draft has fewer negated or hedged sentences than
+  the report). Any flag sends the draft to REVIEW, and each flag points at the report
+  sentences it is about. The rules need no model.
+- **What the flags cannot see:** content the draft adds that is not in the report, or a
+  finding it states differently. A PASS means no flag fired, not that the draft is correct.
 
 ## Run it
 
@@ -46,45 +67,77 @@ Client("http://localhost:7860").predict("Cardiomegaly. No pneumothorax.", api_na
 # {"summary": "...", "decision": "PASS" | "REVIEW", "flags": [...], "meta": {...}}
 ```
 
-## How it works
+`pytest` runs the unit tests; `LAYSUM_GOLDEN=1 pytest` also runs the real model on eight
+self-written reports with known decisions.
 
-```
-report ─► writer: FLAN-T5-base + LoRA (r = 16) ─► rule-based flags ─► PASS | REVIEW
-```
+## Results
 
-- **Writer.** FLAN-T5-base (248M parameters) fine-tuned with LoRA on 150k report and
-  lay-summary pairs; only 0.7% of the parameters are trained.
-- **Flags.** `INPUT_TRUNCATED` (the report is longer than the 512 tokens the writer reads),
-  `NEGATION_LOST` and `CERTAINTY_LOST` (the draft has fewer negated or hedged sentences
-  than the report). Any flag sends the draft to REVIEW. The rules need no model, so each
-  flag points at the exact report sentences it is about.
-- **Not covered.** The flags cannot detect content the draft adds that is not in the
-  report. A neural grounding checker was tested for this in a small test with criteria
-  fixed in advance, and rejected: it could not tell a correct plain-language paraphrase
-  from an error.
+All numbers are on the official validation split of BioLaySumm 2025 LaymanRRG. Its reports
+overlap the training data by 45%, so the writer is also scored on a **clean tier**: 4,037
+reports whose text and imaging study never appear in training.
 
-## Results so far
+**Writer** ([`training/results/`](training/results)): ROUGE-Lsum
+
+| | All validation (10,000) | Report not in training (5,494) | Clean tier (4,037) |
+|---|---|---|---|
+| Zero-shot FLAN-T5-base | 29.3 | 30.3 | 30.3 |
+| **LoRA r = 16 (this app)** | **71.3** | **67.4** | **67.2** |
+| Full fine-tuning | 73.6 | 70.4 | 70.2 |
+
+LoRA comes within 3 points of full fine-tuning on the clean tier while training 0.7% of the
+weights, and ships as a 7 MB adapter. Reading level (Flesch-Kincaid grade) falls from 14.4
+for the reports to 7.5 for the drafts. The app merges the adapter and drafts one report at a
+time; on 200 validation reports it reproduces the measured run (180 drafts identical word
+for word, ROUGE-Lsum 70.63 against 70.55; [`eval/results/equivalence.json`](eval/results/equivalence.json)).
+
+**Review gate** ([`eval/results/audit.json`](eval/results/audit.json)): an audit of 200
+seeded clean-tier drafts, 100 sent to REVIEW and 100 passed, read one by one against the
+source report by an AI model (Claude) following a guide written before reading
+([`eval/audit_guide.md`](eval/audit_guide.md)). The rater is not a clinician and there is no
+second rater.
+
+| | Value (95% Wilson interval) |
+|---|---|
+| Drafts sent to REVIEW | 6.8% (274 of 4,037) |
+| REVIEW drafts with a significant error | 18% [12–27%] |
+| PASS drafts with a significant error | 1% [0.2–5%] |
+| Flags that name the right problem | 14% [9–22%] |
+
+The gate concentrates the significant errors: a REVIEW draft is about 18 times as likely to
+carry one as a passed draft. Individual flags, though, are mostly false alarms: drafts often
+keep a negation or hedge in words the lists do not know ("appears normal", "suggesting") or
+merge sentences. The significant errors found include a fatty liver described as swollen, a
+postoperative fluid collection attributed to cancer, and a possible infection reported as
+absent. Passed drafts carry some error in 37% of cases, almost all minor; the most common is
+a negative finding broadened, such as no consolidation written as no pneumonia.
+
+**Speed** ([`eval/results/latency.json`](eval/results/latency.json)): 2.2 s per report (p50,
+3.0 s p95) in the Docker image on 4 CPU cores; reports past the 512-token limit take longer.
 
 ![ROUGE-Lsum by validation tier, training curves, memory and generation time](training/figures/results.png)
 
-- The official validation split shares 45% of its reports with training, so the writer
-  is also scored on a **clean tier** (4,037 rows whose report and imaging study never
-  appear in training). On that tier LoRA reaches ROUGE-Lsum 67.2, against 30.3 zero-shot
-  and 70.2 for full fine-tuning.
-- On the clean tier the flags send **6.8%** of the LoRA drafts to REVIEW
-  ([`eval/results/review_rate.json`](eval/results/review_rate.json)). Whether those flags
-  are right is measured next, by reading a seeded sample by hand.
+## Design choices
+
+- **Rules instead of a neural checker.** An NLI hallucination detector (HHEM) was tested
+  first, with pass criteria fixed in advance, and rejected: it scored correct plain-language
+  paraphrases as unsupported and a dropped "likely" as supported.
+- **Three evaluation tiers, no leaderboard claims.** The validation split overlaps training,
+  and the shared task's test references are not public, so nothing here is a test-set result.
+- **Sentence-level counting.** Fixed before measuring: count cue sentences unless that sends
+  more than 25% of drafts outside the clean tier to REVIEW; it sent 2.5%.
+- **The adapter lives in the repository.** At 7 MB it needs no model hub, and the app
+  refuses to load an adapter whose SHA-256 differs from the one evaluated.
 
 ## Repository layout
 
 | Path | Contents |
 |---|---|
-| `models/lora_r16/` | The trained LoRA adapter (7.1 MB) and its [model card](models/lora_r16/README.md) |
-| `training/` | Data loading, LoRA and full fine-tuning, evaluation tiers, Slurm scripts |
 | `app.py`, `Dockerfile` | The Gradio app (review screen and `summarize` API) and its CPU image |
-| `src/laysum/` | The product code: `writer.py`, `checks.py`, `pipeline.py`, and the self-written `examples.py` |
-| `eval/` | Scripts that produce every number in this README |
-| `tests/` | Unit tests with a fake writer; `LAYSUM_GOLDEN=1` also runs the real model on the examples |
+| `src/laysum/` | `writer.py`, `checks.py`, `pipeline.py`, and the self-written `examples.py` |
+| `models/lora_r16/` | The trained LoRA adapter and its [model card](models/lora_r16/README.md) |
+| `training/` | Data loading, LoRA and full fine-tuning, evaluation tiers, Slurm scripts; `results/` holds each run's metrics (their `git.commit` predates a history rewrite that removed data excerpts) |
+| `eval/` | The scripts behind every number above, and their outputs in `results/` (no data text) |
+| `tests/` | Unit tests with a fake writer, and the golden tests |
 
 ## Data
 
@@ -93,7 +146,8 @@ reports from PadChest ([Bustos et al., 2020](https://arxiv.org/abs/1901.07441)),
 BIMCV-COVID19+ ([de la Iglesia Vayá et al., 2020](https://arxiv.org/abs/2006.01174)) and
 Open-i, with lay summaries written by GPT-4o. The source datasets forbid redistribution,
 so **no report, summary or excerpt from the data is stored in this repository**; scripts
-download the data from the Hugging Face Hub when run.
+download the data from the Hugging Face Hub when run, and every example in the app and
+tests is self-written.
 
 ## License
 
@@ -104,4 +158,4 @@ Face Hub at a pinned commit.
 ## AI assistance
 
 Parts of the code and documentation were drafted with Claude Code and reviewed by the
-author.
+author. The audit labels were assigned by Claude, as described above.

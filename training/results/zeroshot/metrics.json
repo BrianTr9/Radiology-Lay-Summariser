@@ -1,0 +1,82 @@
+{
+  "args": {
+    "mode": "zeroshot",
+    "model_name": "google/flan-t5-base",
+    "epochs": 3,
+    "lr": null,
+    "lora_r": 8,
+    "batch_size": 8,
+    "grad_accum": 2,
+    "eval_batch_size": 32,
+    "warmup_ratio": 0.05,
+    "weight_decay": 0.01,
+    "max_grad_norm": 1.0,
+    "seed": 0,
+    "num_beams": 4,
+    "max_new_tokens": 512,
+    "num_workers": 0,
+    "log_every": 50,
+    "max_train_samples": null,
+    "max_eval_samples": null,
+    "output_dir": "runs/zeroshot",
+    "skip_final_eval": false,
+    "self_check": false
+  },
+  "git": {
+    "commit": "634854d11dc07bebf5c325cadc67b051ac8d53e0",
+    "dirty": false
+  },
+  "host": "a100-8",
+  "gpu": "NVIDIA A100-PCIE-40GB",
+  "world_size": 1,
+  "torch": "2.13.0+cu130",
+  "versions": {
+    "python": "3.11.15",
+    "transformers": "5.19.0",
+    "peft": "0.21.2",
+    "cuda": "13.0"
+  },
+  "parameters": {
+    "total": 247577856,
+    "trainable": 0,
+    "adapters": 0,
+    "trainable_pct": 0.0
+  },
+  "training": null,
+  "validation": {
+    "rouge": {
+      "full": {
+        "n": 10000,
+        "rouge1": 31.308270323189777,
+        "rouge2": 11.62725708467212,
+        "rougeL": 28.3236509854145,
+        "rougeLsum": 29.27925986502864
+      },
+      "unseen_report": {
+        "n": 5494,
+        "rouge1": 32.71164821308214,
+        "rouge2": 13.699757102373074,
+        "rougeL": 28.90252265787987,
+        "rougeLsum": 30.333969590121715
+      },
+      "clean": {
+        "n": 4037,
+        "rouge1": 32.581029784250056,
+        "rouge2": 13.786916200139789,
+        "rougeL": 28.88674124494624,
+        "rougeLsum": 30.251452310785904
+      }
+    },
+    "inference": {
+      "n_reports": 10000,
+      "batch_size": 32,
+      "num_beams": 4,
+      "max_new_tokens": 512,
+      "generated_tokens": 4260928,
+      "seconds": 3771.464560448192,
+      "tokens_per_s": 1129.780734170187,
+      "seconds_per_report": 0.3771464560448192,
+      "peak_vram_gib": 6.2248454093933105
+    }
+  }
+}

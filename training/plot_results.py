@@ -14,7 +14,7 @@ Description
                   Every number comes from a file; nothing is typed in by hand.
 
 Usage
-    python plot_results.py --runs_dir runs --out_dir figures
+    python plot_results.py            # reads results/<run>/metrics.json, writes figures/
 
 References
     Colours: the first categorical slots of the dataviz skill palette (blue, orange, aqua) in
@@ -119,7 +119,7 @@ def plot_results(metrics: Dict[str, dict], path: str) -> None:
 def main(argv: Optional[List[str]] = None) -> None:
     """Draw the results figure."""
     parser = argparse.ArgumentParser(description="Draw the README figures")
-    parser.add_argument("--runs_dir", default="runs")
+    parser.add_argument("--runs_dir", default="results")
     parser.add_argument("--out_dir", default="figures")
     args = parser.parse_args(argv)
     os.makedirs(args.out_dir, exist_ok=True)
