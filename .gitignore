@@ -1,4 +1,4 @@
-# Datasets and model files must not be committed (COMP3710 spec 4.1)
+# Datasets and model files must not be committed (data terms forbid redistribution)
 data/
 checkpoints/
 *.pt
@@ -20,3 +20,4 @@ __pycache__/
 .venv/
 .ipynb_checkpoints/
 .DS_Store
+.pytest_cache/

@@ -13,7 +13,7 @@ FULL_LR=3e-4
 BATCH="--batch_size 8 --grad_accum 2"
 
 if [[ ! -f train.py || ! -f slurm/train.sh ]]; then
-  echo "Run this from recognition/FLAN-T5_LaySumm_s4984662/ (need train.py and slurm/train.sh)" >&2
+  echo "Run this from training/ (need train.py and slurm/train.sh)" >&2
   exit 1
 fi
 
