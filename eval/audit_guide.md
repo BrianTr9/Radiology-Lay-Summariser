@@ -13,10 +13,12 @@ data terms forbid publishing them); the repository keeps only row indices and la
 ## Who labels
 
 The labels were assigned by an AI model (Claude, Anthropic), reading each pair in full, one
-at a time, following this guide. The rater is not a clinician. The author re-labels a
-seeded subset of 40 pairs without seeing the model's labels, and the agreement is reported
-with the results. Numbers from this audit are estimates of how a careful lay reader judges
-the drafts, not a clinical evaluation.
+at a time, following this guide. There is one rater and no second opinion: the planned
+re-label of 40 pairs by the author was dropped, because the author has no medical training
+either and a second lay reading would add little. So the numbers carry the judgement of one
+AI model, with no measured agreement; they estimate how a careful lay reader judges the
+drafts, not a clinical evaluation. A clinician's reading of the same seeded sample would be
+the right check.
 
 ## Pass A: errors (all 200 pairs, without seeing flags or group)
 
@@ -73,4 +75,3 @@ even if its named problem is absent, the sentences it points at contain an error
 - flag precision: correct flags / all flags, per flag type and overall, with Wilson 95% CIs;
 - the share of REVIEW drafts and of PASS drafts with a significant error, with Wilson CIs;
 - the error types among PASS drafts (what the gate lets through);
-- agreement between the model's labels and the author's on the re-labelled subset.

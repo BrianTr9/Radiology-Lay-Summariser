@@ -1,12 +1,6 @@
 {
-  "author_agreement": {
-    "n": 40,
-    "error_level_exact": 0.0,
-    "error_level_kappa": 0.0,
-    "significant_agree": 0.95,
-    "significant_kappa": 0.0
-  },
   "rater": "Claude (Anthropic), following eval/audit_guide.md; not a clinician",
+  "second_rater": null,
   "seed": 0,
   "pool": {
     "REVIEW": 274,

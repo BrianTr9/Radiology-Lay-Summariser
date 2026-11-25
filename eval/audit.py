@@ -55,8 +55,6 @@ def import_private(directory: Path) -> None:
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--import_private", type=Path)
-    ap.add_argument("--author_labels", type=Path,
-                    help="private .jsonl of the author's blind re-labels of the agreement subset")
     args = ap.parse_args()
     if args.import_private:
         import_private(args.import_private)
@@ -99,10 +97,9 @@ def main():
     lo_p, hi_p = by_group["PASS"]["significant"]["ci95"]
     caught_range = [caught_at(lo_r, hi_p), caught_at(hi_r, lo_p)]
 
-    agreement = author_agreement(items, args.author_labels) if args.author_labels else "pending"
     out = {
-        "author_agreement": agreement,
-        "rater": labels["rater"], "seed": labels["seed"], "pool": pool,
+        "rater": labels["rater"],
+        "second_rater": None, "seed": labels["seed"], "pool": pool,
         "review_rate_clean_tier": round(w_review, 4),
         "flag_precision": precision,
         "flag_useful": useful,
@@ -136,30 +133,7 @@ def main():
     print(f"clean tier: {tier_significant:.1%} of drafts have a significant error; "
           f"the gate sends {caught:.0%} of them to REVIEW (range {caught_range[0]:.0%}-"
           f"{caught_range[1]:.0%})")
-    print("author agreement:", agreement)
 
-
-def cohen_kappa(a, b):
-    cats = sorted(set(a) | set(b))
-    n = len(a)
-    observed = sum(x == y for x, y in zip(a, b, strict=True)) / n
-    expected = sum((a.count(c) / n) * (b.count(c) / n) for c in cats)
-    return round((observed - expected) / (1 - expected), 3) if expected < 1 else 1.0
-
-
-def author_agreement(items, path):
-    """Agreement with the author's blind re-labels: {"item": int, "error": none|minor|significant}."""
-    mine = {r["item"]: r["error"] for r in items}
-    theirs = {r["item"]: r["error"] for r in map(json.loads, open(path))}
-    keys = sorted(theirs)
-    a, b = [mine[k] for k in keys], [theirs[k] for k in keys]
-    sig_a, sig_b = [x == "significant" for x in a], [x == "significant" for x in b]
-    return {"n": len(keys),
-            "error_level_exact": round(sum(x == y for x, y in zip(a, b, strict=True)) / len(keys), 3),
-            "error_level_kappa": cohen_kappa(a, b),
-            "significant_agree": round(sum(x == y for x, y in zip(sig_a, sig_b, strict=True))
-                                       / len(keys), 3),
-            "significant_kappa": cohen_kappa(sig_a, sig_b)}
 
 
 if __name__ == "__main__":
