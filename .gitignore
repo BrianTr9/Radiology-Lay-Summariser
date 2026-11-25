@@ -5,6 +5,8 @@ checkpoints/
 *.pth
 *.bin
 *.safetensors
+# ...except the one adapter this project ships (7.1 MB)
+!models/lora_r16/adapter_model.safetensors
 *.ckpt
 
 # Experiment and Slurm outputs

@@ -13,8 +13,7 @@ ROUGE-Lsum between the two sets, and the reading grade of both. It writes only c
 row indices (no report text) to eval/results/equivalence.json. Run it on a GPU (Colab) with
 the settings the demo uses; the file records the device and library versions.
 
-Usage: python eval/equivalence.py --adapter <adapter folder or Hub id> \
-           --predictions <runs_from_rangpur/lora_r16_lr3e-3/val_predictions.jsonl>
+Usage: python eval/equivalence.py --predictions <val_predictions.jsonl of the original LoRA r16 run>
 """
 import argparse
 import json
@@ -38,8 +37,6 @@ from utils import mean_rouge, rouge_per_example  # noqa: E402
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--adapter", required=True, help="adapter folder or Hub id")
-    ap.add_argument("--adapter-revision", default=None, help="Hub commit of the adapter; none for a folder")
     ap.add_argument("--predictions", required=True, help="val_predictions.jsonl of LoRA r16")
     ap.add_argument("--n", type=int, default=200)
     ap.add_argument("--seed", type=int, default=0)
@@ -57,7 +54,7 @@ def main():
     assert sorted(stored) == list(range(len(sources))), "predictions must cover validation"
 
     rows = sorted(random.Random(args.seed).sample(range(len(sources)), args.n))
-    w = FlanT5Writer.from_pretrained(args.adapter, adapter_revision=args.adapter_revision)
+    w = FlanT5Writer.from_pretrained()  # the adapter in models/lora_r16, checked by SHA-256
     w.summarise(sources[rows[0]])  # warm-up, result discarded
 
     ours, seconds = {}, 0.0

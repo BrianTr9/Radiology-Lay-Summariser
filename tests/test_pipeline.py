@@ -125,7 +125,14 @@ def test_inference_settings_match_the_training_code():
     assert writer.build_source_text("  x ") == dataset.build_source_text("  x ")
 
 
-def test_revisions_are_pinned_or_waiting_for_the_upload():
+def test_base_revision_is_pinned_and_adapter_ships_with_the_repo():
     import re
     assert re.fullmatch(r"[0-9a-f]{40}", writer.BASE_REVISION)
-    assert writer.ADAPTER_REVISION is None or re.fullmatch(r"[0-9a-f]{40}", writer.ADAPTER_REVISION)
+    assert (writer.ADAPTER_DIR / "adapter_config.json").is_file()
+    assert writer.adapter_sha256() == writer.ADAPTER_SHA256
+
+
+def test_a_changed_adapter_is_refused(tmp_path):
+    (tmp_path / "adapter_model.safetensors").write_bytes(b"not the evaluated weights")
+    with pytest.raises(ValueError, match="SHA-256"):
+        writer.FlanT5Writer.from_pretrained(tmp_path)

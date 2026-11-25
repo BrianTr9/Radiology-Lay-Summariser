@@ -1,25 +1,17 @@
----
-base_model: google/flan-t5-base
-library_name: peft
-pipeline_tag: text2text-generation
-language: en
-license: other
-license_name: research-use-only
-license_link: https://github.com/BrianTr9/Radiology-Lay-Summariser#license
-tags:
-  - lora
-  - radiology
-  - chest-x-ray
-  - lay-summarisation
-  - research-prototype
----
-
 # FLAN-T5-base LoRA (r = 16) for plain-language chest X-ray report drafts
 
 A LoRA adapter for `google/flan-t5-base` that rewrites a chest X-ray report as a short
-plain-language draft. It is the writer of the
-[Radiology Lay Summariser](https://github.com/BrianTr9/Radiology-Lay-Summariser) research
-prototype, where every draft is checked by rules and meant to be reviewed by a clinician.
+plain-language draft. It is the writer of this repository's research prototype (see the
+[main README](../../README.md)), where every draft is checked by rules and meant to be
+reviewed by a clinician.
+
+| File | Contents |
+|---|---|
+| `adapter_config.json` | LoRA settings (r = 16, alpha = 32, query and value matrices) |
+| `adapter_model.safetensors` | 1,769,472 weights, 7.1 MB, SHA-256 `273ae336215a...` (checked when loaded) |
+
+License: research use only, following the terms of the training data (see below); the
+MIT license of this repository covers the code, not these weights.
 
 > **Research use only.** This is not a medical device. Do not use it for diagnosis, patient
 > care, or to send text to patients without review. Do not enter reports that contain
@@ -35,12 +27,12 @@ tokens, 4 beams, at most 512 new tokens):
 ```python
 from laysum.writer import FlanT5Writer
 
-writer = FlanT5Writer.from_pretrained()   # pinned base and adapter revisions
+writer = FlanT5Writer.from_pretrained()   # base from the Hub at a pinned commit + this adapter
 draft = writer.summarise("Small left-sided pneumothorax. No pleural effusion.")
 print(draft.text)
 ```
 
-Without that code, load the adapter with `peft.PeftModel.from_pretrained` and prefix the
+Without that code, load this folder with `peft.PeftModel.from_pretrained` and prefix the
 report with: *"Rewrite the following radiology report in plain language that a patient can
 understand:"*. With transformers 5.x, share the encoder and decoder embeddings with
 `model.shared` before loading the adapter (`model.encoder.embed_tokens.weight =

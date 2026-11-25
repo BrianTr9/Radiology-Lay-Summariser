@@ -43,8 +43,9 @@ report ─► writer: FLAN-T5-base + LoRA (r = 16) ─► rule-based flags ─�
 
 | Path | Contents |
 |---|---|
+| `models/lora_r16/` | The trained LoRA adapter (7.1 MB) and its [model card](models/lora_r16/README.md) |
 | `training/` | Data loading, LoRA and full fine-tuning, evaluation tiers, Slurm scripts |
-| `src/laysum/` | The product code (`checks.py` today; writer and pipeline next) |
+| `src/laysum/` | The product code: `writer.py`, `checks.py`, `pipeline.py` |
 | `eval/` | Scripts that produce every number in this README |
 | `tests/` | Unit tests; all example texts are self-written |
 
@@ -59,7 +60,9 @@ download the data from the Hugging Face Hub when run.
 
 ## License
 
-Code: [MIT](LICENSE). Model weights and data follow the terms of their sources.
+Code: [MIT](LICENSE). The adapter weights in `models/` are for research use only, following
+the terms of the data they were trained on. The base model is downloaded from the Hugging
+Face Hub at a pinned commit.
 
 ## AI assistance
 
