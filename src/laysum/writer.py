@@ -93,7 +93,9 @@ class FlanT5Writer:
         # restores the trained matrix. Same fix as training/modules.py:_load_flan_t5.
         model.encoder.embed_tokens.weight = model.shared.weight
         model.decoder.embed_tokens.weight = model.shared.weight
-        model = PeftModel.from_pretrained(model, str(adapter_dir))
+        # Read and merge the adapter on the CPU, then move the merged model. On a ZeroGPU Space
+        # CUDA only looks available at import, and peft would read the adapter onto a real GPU.
+        model = PeftModel.from_pretrained(model, str(adapter_dir), torch_device="cpu")
         model = model.merge_and_unload().to(device).eval()
         version = f"{BASE_MODEL}@{BASE_REVISION[:12]} + lora_r16 sha256:{digest[:12]}"
         return cls(model, tokenizer, version, device)
