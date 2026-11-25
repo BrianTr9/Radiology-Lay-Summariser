@@ -1,0 +1,16 @@
+[project]
+name = "laysum"
+version = "0.1.0"
+description = "Research prototype: plain-language drafts of chest X-ray reports with rule-based review flags"
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

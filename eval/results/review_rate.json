@@ -1,0 +1,78 @@
+{
+  "rule": "sentence level unless its REVIEW rate on rows outside the clean tier > 0.25",
+  "prompt": "Rewrite the following radiology report in plain language that a patient can understand:",
+  "max_source_tokens": 512,
+  "selection_outside_clean": {
+    "sentence": {
+      "n": 5963,
+      "review": 148,
+      "review_rate": 0.0248,
+      "per_flag_rate": {
+        "INPUT_TRUNCATED": 0.0002,
+        "NEGATION_LOST": 0.0104,
+        "CERTAINTY_LOST": 0.0143
+      }
+    },
+    "document": {
+      "n": 5963,
+      "review": 101,
+      "review_rate": 0.0169,
+      "per_flag_rate": {
+        "INPUT_TRUNCATED": 0.0002,
+        "NEGATION_LOST": 0.0045,
+        "CERTAINTY_LOST": 0.0122
+      }
+    }
+  },
+  "chosen_level": "sentence",
+  "clean_tier": {
+    "sentence": {
+      "lora_r16": {
+        "n": 4037,
+        "review": 274,
+        "review_rate": 0.0679,
+        "per_flag_rate": {
+          "INPUT_TRUNCATED": 0.003,
+          "NEGATION_LOST": 0.0381,
+          "CERTAINTY_LOST": 0.0285
+        }
+      },
+      "reference": {
+        "n": 4037,
+        "review": 398,
+        "review_rate": 0.0986,
+        "per_flag_rate": {
+          "INPUT_TRUNCATED": 0.003,
+          "NEGATION_LOST": 0.0664,
+          "CERTAINTY_LOST": 0.0349
+        }
+      }
+    },
+    "document": {
+      "lora_r16": {
+        "n": 4037,
+        "review": 128,
+        "review_rate": 0.0317,
+        "per_flag_rate": {
+          "INPUT_TRUNCATED": 0.003,
+          "NEGATION_LOST": 0.0109,
+          "CERTAINTY_LOST": 0.0181
+        }
+      },
+      "reference": {
+        "n": 4037,
+        "review": 208,
+        "review_rate": 0.0515,
+        "per_flag_rate": {
+          "INPUT_TRUNCATED": 0.003,
+          "NEGATION_LOST": 0.0228,
+          "CERTAINTY_LOST": 0.0263
+        }
+      }
+    }
+  },
+  "truncated_reports": {
+    "full": 13,
+    "clean": 12
+  }
+}
