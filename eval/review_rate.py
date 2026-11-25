@@ -17,6 +17,7 @@ Usage: python eval/review_rate.py --predictions <val_predictions.jsonl of the Lo
 """
 import argparse
 import json
+import random
 import sys
 from collections import Counter
 from pathlib import Path
@@ -49,7 +50,14 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--predictions", required=True, help="val_predictions.jsonl of LoRA r16")
     ap.add_argument("--out", default=str(ROOT / "eval" / "results" / "review_rate.json"))
+    ap.add_argument("--sample", type=int, default=0,
+                    help="also draw this many REVIEW and this many PASS drafts for the audit")
+    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--sample_texts", help="private .jsonl for the sampled texts (keep it "
+                                           "outside the repository)")
     args = ap.parse_args()
+    if args.sample and not args.sample_texts:
+        ap.error("--sample needs --sample_texts")
 
     data = load_laysumm()
     train, val = data["train"], data["validation"]
@@ -94,6 +102,32 @@ def main():
           + ", ".join(f"{c} {v:.1%}" for c, v in r["per_flag_rate"].items()))
     ref = report[level]["reference"]
     print(f"clean tier, references: REVIEW {ref['review_rate']:.1%}")
+    if args.sample:
+        draw_sample(sources, drafts, cuts, clean, level, args)
+
+
+def draw_sample(sources, drafts, cuts, clean, level, args):
+    """Seeded audit sample: `--sample` REVIEW and `--sample` PASS drafts of the clean tier,
+    shuffled together. Texts go to the private file; the repository gets indices only."""
+    flags = {i: check(sources[i], drafts[i], cuts[i], level) for i in clean}
+    review = sorted(i for i in clean if flags[i])
+    passed = sorted(i for i in clean if not flags[i])
+    rng = random.Random(args.seed)
+    picked = ([(i, "REVIEW") for i in rng.sample(review, args.sample)]
+              + [(i, "PASS") for i in rng.sample(passed, args.sample)])
+    rng.shuffle(picked)
+    with open(args.sample_texts, "w") as f:
+        for item, (i, group) in enumerate(picked):
+            f.write(json.dumps({"item": item, "index": i, "group": group, "source": sources[i],
+                                "draft": drafts[i], "truncated_at": cuts[i],
+                                "flags": [{"code": fl.code, "source_spans": fl.source_spans}
+                                          for fl in flags[i]]}) + "\n")
+    out = {"seed": args.seed, "level": level, "pool": {"REVIEW": len(review), "PASS": len(passed)},
+           "items": [{"item": k, "index": i, "group": g} for k, (i, g) in enumerate(picked)]}
+    path = ROOT / "eval" / "results" / "audit_sample.json"
+    path.write_text(json.dumps(out, indent=1) + "\n")
+    print(f"audit sample: {args.sample} REVIEW of {len(review)}, {args.sample} PASS of "
+          f"{len(passed)}; indices in {path.relative_to(ROOT)}, texts in {args.sample_texts}")
 
 
 if __name__ == "__main__":

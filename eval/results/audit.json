@@ -1,0 +1,168 @@
+{
+  "author_agreement": {
+    "n": 40,
+    "error_level_exact": 0.0,
+    "error_level_kappa": 0.0,
+    "significant_agree": 0.95,
+    "significant_kappa": 0.0
+  },
+  "rater": "Claude (Anthropic), following eval/audit_guide.md; not a clinician",
+  "seed": 0,
+  "pool": {
+    "REVIEW": 274,
+    "PASS": 3763
+  },
+  "review_rate_clean_tier": 0.0679,
+  "flag_precision": {
+    "all": {
+      "k": 15,
+      "n": 104,
+      "rate": 0.144,
+      "ci95": [
+        0.089,
+        0.224
+      ]
+    },
+    "NEGATION_LOST": {
+      "k": 6,
+      "n": 52,
+      "rate": 0.115,
+      "ci95": [
+        0.054,
+        0.23
+      ]
+    },
+    "CERTAINTY_LOST": {
+      "k": 6,
+      "n": 46,
+      "rate": 0.13,
+      "ci95": [
+        0.061,
+        0.257
+      ]
+    },
+    "INPUT_TRUNCATED": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5,
+      "ci95": [
+        0.188,
+        0.812
+      ]
+    }
+  },
+  "flag_useful": {
+    "k": 44,
+    "n": 104,
+    "rate": 0.423,
+    "ci95": [
+      0.333,
+      0.519
+    ]
+  },
+  "review_drafts_with_a_correct_flag": {
+    "k": 14,
+    "n": 100,
+    "rate": 0.14,
+    "ci95": [
+      0.085,
+      0.221
+    ]
+  },
+  "error_rate": {
+    "REVIEW": {
+      "significant": {
+        "k": 18,
+        "n": 100,
+        "rate": 0.18,
+        "ci95": [
+          0.117,
+          0.267
+        ]
+      },
+      "any": {
+        "k": 57,
+        "n": 100,
+        "rate": 0.57,
+        "ci95": [
+          0.472,
+          0.663
+        ]
+      }
+    },
+    "PASS": {
+      "significant": {
+        "k": 1,
+        "n": 100,
+        "rate": 0.01,
+        "ci95": [
+          0.002,
+          0.054
+        ]
+      },
+      "any": {
+        "k": 37,
+        "n": 100,
+        "rate": 0.37,
+        "ci95": [
+          0.282,
+          0.468
+        ]
+      }
+    }
+  },
+  "pass_error_types_drafts": {
+    "significant": {
+      "ADDED": 0,
+      "NEGATION": 0,
+      "CERTAINTY": 1,
+      "CHANGED": 0,
+      "OMITTED": 0,
+      "DEGENERATE": 0
+    },
+    "any": {
+      "ADDED": 14,
+      "NEGATION": 0,
+      "CERTAINTY": 2,
+      "CHANGED": 21,
+      "OMITTED": 2,
+      "DEGENERATE": 3
+    }
+  },
+  "not_plain": {
+    "REVIEW": {
+      "k": 16,
+      "n": 100,
+      "rate": 0.16,
+      "ci95": [
+        0.101,
+        0.244
+      ]
+    },
+    "PASS": {
+      "k": 11,
+      "n": 100,
+      "rate": 0.11,
+      "ci95": [
+        0.063,
+        0.186
+      ]
+    }
+  },
+  "clean_tier_estimate": {
+    "significant_error_rate": 0.022,
+    "share_of_significant_errors_sent_to_review": 0.567,
+    "share_range_from_the_two_cis": [
+      0.136,
+      0.907
+    ],
+    "note": "strata weighted by pool size; the range combines the ends of the two Wilson intervals, so it is wide when PASS errors are rare"
+  },
+  "types_total": {
+    "CHANGED": 63,
+    "DEGENERATE": 11,
+    "CERTAINTY": 6,
+    "OMITTED": 11,
+    "ADDED": 28
+  }
+}

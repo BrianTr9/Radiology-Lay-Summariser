@@ -1,0 +1,1053 @@
+{
+ "seed": 0,
+ "level": "sentence",
+ "pool": {
+  "REVIEW": 274,
+  "PASS": 3763
+ },
+ "items": [
+  {
+   "item": 0,
+   "index": 390,
+   "group": "PASS"
+  },
+  {
+   "item": 1,
+   "index": 2330,
+   "group": "PASS"
+  },
+  {
+   "item": 2,
+   "index": 5334,
+   "group": "PASS"
+  },
+  {
+   "item": 3,
+   "index": 361,
+   "group": "PASS"
+  },
+  {
+   "item": 4,
+   "index": 3099,
+   "group": "REVIEW"
+  },
+  {
+   "item": 5,
+   "index": 7596,
+   "group": "REVIEW"
+  },
+  {
+   "item": 6,
+   "index": 9444,
+   "group": "REVIEW"
+  },
+  {
+   "item": 7,
+   "index": 6789,
+   "group": "PASS"
+  },
+  {
+   "item": 8,
+   "index": 3543,
+   "group": "PASS"
+  },
+  {
+   "item": 9,
+   "index": 1252,
+   "group": "PASS"
+  },
+  {
+   "item": 10,
+   "index": 1782,
+   "group": "REVIEW"
+  },
+  {
+   "item": 11,
+   "index": 2941,
+   "group": "PASS"
+  },
+  {
+   "item": 12,
+   "index": 6228,
+   "group": "PASS"
+  },
+  {
+   "item": 13,
+   "index": 1117,
+   "group": "REVIEW"
+  },
+  {
+   "item": 14,
+   "index": 5827,
+   "group": "REVIEW"
+  },
+  {
+   "item": 15,
+   "index": 3806,
+   "group": "PASS"
+  },
+  {
+   "item": 16,
+   "index": 7579,
+   "group": "PASS"
+  },
+  {
+   "item": 17,
+   "index": 4052,
+   "group": "REVIEW"
+  },
+  {
+   "item": 18,
+   "index": 8112,
+   "group": "REVIEW"
+  },
+  {
+   "item": 19,
+   "index": 2582,
+   "group": "PASS"
+  },
+  {
+   "item": 20,
+   "index": 1264,
+   "group": "PASS"
+  },
+  {
+   "item": 21,
+   "index": 4255,
+   "group": "REVIEW"
+  },
+  {
+   "item": 22,
+   "index": 6902,
+   "group": "PASS"
+  },
+  {
+   "item": 23,
+   "index": 5905,
+   "group": "REVIEW"
+  },
+  {
+   "item": 24,
+   "index": 7265,
+   "group": "PASS"
+  },
+  {
+   "item": 25,
+   "index": 4889,
+   "group": "PASS"
+  },
+  {
+   "item": 26,
+   "index": 3936,
+   "group": "PASS"
+  },
+  {
+   "item": 27,
+   "index": 4387,
+   "group": "REVIEW"
+  },
+  {
+   "item": 28,
+   "index": 1311,
+   "group": "REVIEW"
+  },
+  {
+   "item": 29,
+   "index": 9887,
+   "group": "PASS"
+  },
+  {
+   "item": 30,
+   "index": 5761,
+   "group": "PASS"
+  },
+  {
+   "item": 31,
+   "index": 8025,
+   "group": "REVIEW"
+  },
+  {
+   "item": 32,
+   "index": 7526,
+   "group": "REVIEW"
+  },
+  {
+   "item": 33,
+   "index": 1257,
+   "group": "PASS"
+  },
+  {
+   "item": 34,
+   "index": 5443,
+   "group": "REVIEW"
+  },
+  {
+   "item": 35,
+   "index": 5365,
+   "group": "REVIEW"
+  },
+  {
+   "item": 36,
+   "index": 685,
+   "group": "REVIEW"
+  },
+  {
+   "item": 37,
+   "index": 9203,
+   "group": "PASS"
+  },
+  {
+   "item": 38,
+   "index": 6774,
+   "group": "REVIEW"
+  },
+  {
+   "item": 39,
+   "index": 6803,
+   "group": "REVIEW"
+  },
+  {
+   "item": 40,
+   "index": 468,
+   "group": "PASS"
+  },
+  {
+   "item": 41,
+   "index": 8419,
+   "group": "REVIEW"
+  },
+  {
+   "item": 42,
+   "index": 2347,
+   "group": "PASS"
+  },
+  {
+   "item": 43,
+   "index": 113,
+   "group": "REVIEW"
+  },
+  {
+   "item": 44,
+   "index": 3463,
+   "group": "REVIEW"
+  },
+  {
+   "item": 45,
+   "index": 9711,
+   "group": "PASS"
+  },
+  {
+   "item": 46,
+   "index": 5669,
+   "group": "PASS"
+  },
+  {
+   "item": 47,
+   "index": 4897,
+   "group": "REVIEW"
+  },
+  {
+   "item": 48,
+   "index": 5887,
+   "group": "REVIEW"
+  },
+  {
+   "item": 49,
+   "index": 1620,
+   "group": "PASS"
+  },
+  {
+   "item": 50,
+   "index": 2036,
+   "group": "REVIEW"
+  },
+  {
+   "item": 51,
+   "index": 2017,
+   "group": "REVIEW"
+  },
+  {
+   "item": 52,
+   "index": 8885,
+   "group": "PASS"
+  },
+  {
+   "item": 53,
+   "index": 7078,
+   "group": "REVIEW"
+  },
+  {
+   "item": 54,
+   "index": 8819,
+   "group": "PASS"
+  },
+  {
+   "item": 55,
+   "index": 6118,
+   "group": "REVIEW"
+  },
+  {
+   "item": 56,
+   "index": 412,
+   "group": "PASS"
+  },
+  {
+   "item": 57,
+   "index": 2509,
+   "group": "REVIEW"
+  },
+  {
+   "item": 58,
+   "index": 4497,
+   "group": "PASS"
+  },
+  {
+   "item": 59,
+   "index": 3570,
+   "group": "PASS"
+  },
+  {
+   "item": 60,
+   "index": 9043,
+   "group": "PASS"
+  },
+  {
+   "item": 61,
+   "index": 908,
+   "group": "REVIEW"
+  },
+  {
+   "item": 62,
+   "index": 32,
+   "group": "REVIEW"
+  },
+  {
+   "item": 63,
+   "index": 673,
+   "group": "PASS"
+  },
+  {
+   "item": 64,
+   "index": 7479,
+   "group": "PASS"
+  },
+  {
+   "item": 65,
+   "index": 2634,
+   "group": "REVIEW"
+  },
+  {
+   "item": 66,
+   "index": 2415,
+   "group": "REVIEW"
+  },
+  {
+   "item": 67,
+   "index": 6183,
+   "group": "PASS"
+  },
+  {
+   "item": 68,
+   "index": 2725,
+   "group": "REVIEW"
+  },
+  {
+   "item": 69,
+   "index": 5402,
+   "group": "REVIEW"
+  },
+  {
+   "item": 70,
+   "index": 975,
+   "group": "PASS"
+  },
+  {
+   "item": 71,
+   "index": 2902,
+   "group": "PASS"
+  },
+  {
+   "item": 72,
+   "index": 9272,
+   "group": "PASS"
+  },
+  {
+   "item": 73,
+   "index": 7045,
+   "group": "PASS"
+  },
+  {
+   "item": 74,
+   "index": 7944,
+   "group": "REVIEW"
+  },
+  {
+   "item": 75,
+   "index": 4834,
+   "group": "REVIEW"
+  },
+  {
+   "item": 76,
+   "index": 995,
+   "group": "PASS"
+  },
+  {
+   "item": 77,
+   "index": 5278,
+   "group": "REVIEW"
+  },
+  {
+   "item": 78,
+   "index": 6534,
+   "group": "PASS"
+  },
+  {
+   "item": 79,
+   "index": 1999,
+   "group": "PASS"
+  },
+  {
+   "item": 80,
+   "index": 7658,
+   "group": "REVIEW"
+  },
+  {
+   "item": 81,
+   "index": 2942,
+   "group": "REVIEW"
+  },
+  {
+   "item": 82,
+   "index": 7075,
+   "group": "PASS"
+  },
+  {
+   "item": 83,
+   "index": 7899,
+   "group": "PASS"
+  },
+  {
+   "item": 84,
+   "index": 6744,
+   "group": "REVIEW"
+  },
+  {
+   "item": 85,
+   "index": 9092,
+   "group": "PASS"
+  },
+  {
+   "item": 86,
+   "index": 5834,
+   "group": "PASS"
+  },
+  {
+   "item": 87,
+   "index": 6161,
+   "group": "PASS"
+  },
+  {
+   "item": 88,
+   "index": 8938,
+   "group": "PASS"
+  },
+  {
+   "item": 89,
+   "index": 2800,
+   "group": "REVIEW"
+  },
+  {
+   "item": 90,
+   "index": 1845,
+   "group": "REVIEW"
+  },
+  {
+   "item": 91,
+   "index": 5640,
+   "group": "REVIEW"
+  },
+  {
+   "item": 92,
+   "index": 9141,
+   "group": "PASS"
+  },
+  {
+   "item": 93,
+   "index": 3452,
+   "group": "PASS"
+  },
+  {
+   "item": 94,
+   "index": 8771,
+   "group": "PASS"
+  },
+  {
+   "item": 95,
+   "index": 8892,
+   "group": "REVIEW"
+  },
+  {
+   "item": 96,
+   "index": 1404,
+   "group": "PASS"
+  },
+  {
+   "item": 97,
+   "index": 663,
+   "group": "REVIEW"
+  },
+  {
+   "item": 98,
+   "index": 2018,
+   "group": "PASS"
+  },
+  {
+   "item": 99,
+   "index": 7260,
+   "group": "PASS"
+  },
+  {
+   "item": 100,
+   "index": 7920,
+   "group": "REVIEW"
+  },
+  {
+   "item": 101,
+   "index": 7173,
+   "group": "REVIEW"
+  },
+  {
+   "item": 102,
+   "index": 5129,
+   "group": "PASS"
+  },
+  {
+   "item": 103,
+   "index": 1349,
+   "group": "PASS"
+  },
+  {
+   "item": 104,
+   "index": 9749,
+   "group": "PASS"
+  },
+  {
+   "item": 105,
+   "index": 4577,
+   "group": "PASS"
+  },
+  {
+   "item": 106,
+   "index": 9431,
+   "group": "REVIEW"
+  },
+  {
+   "item": 107,
+   "index": 7577,
+   "group": "PASS"
+  },
+  {
+   "item": 108,
+   "index": 8378,
+   "group": "REVIEW"
+  },
+  {
+   "item": 109,
+   "index": 8700,
+   "group": "REVIEW"
+  },
+  {
+   "item": 110,
+   "index": 2308,
+   "group": "PASS"
+  },
+  {
+   "item": 111,
+   "index": 9933,
+   "group": "REVIEW"
+  },
+  {
+   "item": 112,
+   "index": 4570,
+   "group": "REVIEW"
+  },
+  {
+   "item": 113,
+   "index": 7836,
+   "group": "REVIEW"
+  },
+  {
+   "item": 114,
+   "index": 9173,
+   "group": "REVIEW"
+  },
+  {
+   "item": 115,
+   "index": 9171,
+   "group": "PASS"
+  },
+  {
+   "item": 116,
+   "index": 6847,
+   "group": "PASS"
+  },
+  {
+   "item": 117,
+   "index": 537,
+   "group": "REVIEW"
+  },
+  {
+   "item": 118,
+   "index": 8839,
+   "group": "PASS"
+  },
+  {
+   "item": 119,
+   "index": 6602,
+   "group": "REVIEW"
+  },
+  {
+   "item": 120,
+   "index": 4563,
+   "group": "REVIEW"
+  },
+  {
+   "item": 121,
+   "index": 7314,
+   "group": "REVIEW"
+  },
+  {
+   "item": 122,
+   "index": 8460,
+   "group": "PASS"
+  },
+  {
+   "item": 123,
+   "index": 8414,
+   "group": "REVIEW"
+  },
+  {
+   "item": 124,
+   "index": 2788,
+   "group": "PASS"
+  },
+  {
+   "item": 125,
+   "index": 1298,
+   "group": "PASS"
+  },
+  {
+   "item": 126,
+   "index": 7432,
+   "group": "REVIEW"
+  },
+  {
+   "item": 127,
+   "index": 7515,
+   "group": "PASS"
+  },
+  {
+   "item": 128,
+   "index": 8560,
+   "group": "PASS"
+  },
+  {
+   "item": 129,
+   "index": 6188,
+   "group": "REVIEW"
+  },
+  {
+   "item": 130,
+   "index": 899,
+   "group": "PASS"
+  },
+  {
+   "item": 131,
+   "index": 9868,
+   "group": "REVIEW"
+  },
+  {
+   "item": 132,
+   "index": 2477,
+   "group": "REVIEW"
+  },
+  {
+   "item": 133,
+   "index": 4166,
+   "group": "PASS"
+  },
+  {
+   "item": 134,
+   "index": 9142,
+   "group": "REVIEW"
+  },
+  {
+   "item": 135,
+   "index": 8547,
+   "group": "REVIEW"
+  },
+  {
+   "item": 136,
+   "index": 4117,
+   "group": "REVIEW"
+  },
+  {
+   "item": 137,
+   "index": 9329,
+   "group": "REVIEW"
+  },
+  {
+   "item": 138,
+   "index": 5241,
+   "group": "REVIEW"
+  },
+  {
+   "item": 139,
+   "index": 7018,
+   "group": "REVIEW"
+  },
+  {
+   "item": 140,
+   "index": 867,
+   "group": "PASS"
+  },
+  {
+   "item": 141,
+   "index": 5267,
+   "group": "PASS"
+  },
+  {
+   "item": 142,
+   "index": 8077,
+   "group": "REVIEW"
+  },
+  {
+   "item": 143,
+   "index": 2038,
+   "group": "PASS"
+  },
+  {
+   "item": 144,
+   "index": 1578,
+   "group": "REVIEW"
+  },
+  {
+   "item": 145,
+   "index": 1849,
+   "group": "PASS"
+  },
+  {
+   "item": 146,
+   "index": 8697,
+   "group": "REVIEW"
+  },
+  {
+   "item": 147,
+   "index": 2501,
+   "group": "PASS"
+  },
+  {
+   "item": 148,
+   "index": 3956,
+   "group": "PASS"
+  },
+  {
+   "item": 149,
+   "index": 6606,
+   "group": "PASS"
+  },
+  {
+   "item": 150,
+   "index": 6839,
+   "group": "PASS"
+  },
+  {
+   "item": 151,
+   "index": 5011,
+   "group": "REVIEW"
+  },
+  {
+   "item": 152,
+   "index": 5354,
+   "group": "REVIEW"
+  },
+  {
+   "item": 153,
+   "index": 9500,
+   "group": "PASS"
+  },
+  {
+   "item": 154,
+   "index": 1092,
+   "group": "PASS"
+  },
+  {
+   "item": 155,
+   "index": 9446,
+   "group": "REVIEW"
+  },
+  {
+   "item": 156,
+   "index": 586,
+   "group": "REVIEW"
+  },
+  {
+   "item": 157,
+   "index": 6347,
+   "group": "PASS"
+  },
+  {
+   "item": 158,
+   "index": 5883,
+   "group": "REVIEW"
+  },
+  {
+   "item": 159,
+   "index": 2241,
+   "group": "REVIEW"
+  },
+  {
+   "item": 160,
+   "index": 5020,
+   "group": "REVIEW"
+  },
+  {
+   "item": 161,
+   "index": 9780,
+   "group": "REVIEW"
+  },
+  {
+   "item": 162,
+   "index": 7483,
+   "group": "REVIEW"
+  },
+  {
+   "item": 163,
+   "index": 7608,
+   "group": "REVIEW"
+  },
+  {
+   "item": 164,
+   "index": 9978,
+   "group": "PASS"
+  },
+  {
+   "item": 165,
+   "index": 8981,
+   "group": "PASS"
+  },
+  {
+   "item": 166,
+   "index": 8622,
+   "group": "REVIEW"
+  },
+  {
+   "item": 167,
+   "index": 7276,
+   "group": "PASS"
+  },
+  {
+   "item": 168,
+   "index": 7857,
+   "group": "REVIEW"
+  },
+  {
+   "item": 169,
+   "index": 2021,
+   "group": "PASS"
+  },
+  {
+   "item": 170,
+   "index": 802,
+   "group": "PASS"
+  },
+  {
+   "item": 171,
+   "index": 6323,
+   "group": "PASS"
+  },
+  {
+   "item": 172,
+   "index": 3997,
+   "group": "REVIEW"
+  },
+  {
+   "item": 173,
+   "index": 7502,
+   "group": "PASS"
+  },
+  {
+   "item": 174,
+   "index": 5649,
+   "group": "PASS"
+  },
+  {
+   "item": 175,
+   "index": 8988,
+   "group": "PASS"
+  },
+  {
+   "item": 176,
+   "index": 812,
+   "group": "REVIEW"
+  },
+  {
+   "item": 177,
+   "index": 8174,
+   "group": "PASS"
+  },
+  {
+   "item": 178,
+   "index": 5752,
+   "group": "REVIEW"
+  },
+  {
+   "item": 179,
+   "index": 989,
+   "group": "REVIEW"
+  },
+  {
+   "item": 180,
+   "index": 8572,
+   "group": "PASS"
+  },
+  {
+   "item": 181,
+   "index": 5945,
+   "group": "REVIEW"
+  },
+  {
+   "item": 182,
+   "index": 8746,
+   "group": "REVIEW"
+  },
+  {
+   "item": 183,
+   "index": 2530,
+   "group": "REVIEW"
+  },
+  {
+   "item": 184,
+   "index": 5526,
+   "group": "REVIEW"
+  },
+  {
+   "item": 185,
+   "index": 2841,
+   "group": "REVIEW"
+  },
+  {
+   "item": 186,
+   "index": 183,
+   "group": "PASS"
+  },
+  {
+   "item": 187,
+   "index": 764,
+   "group": "PASS"
+  },
+  {
+   "item": 188,
+   "index": 2939,
+   "group": "PASS"
+  },
+  {
+   "item": 189,
+   "index": 6527,
+   "group": "PASS"
+  },
+  {
+   "item": 190,
+   "index": 1584,
+   "group": "PASS"
+  },
+  {
+   "item": 191,
+   "index": 1601,
+   "group": "REVIEW"
+  },
+  {
+   "item": 192,
+   "index": 288,
+   "group": "PASS"
+  },
+  {
+   "item": 193,
+   "index": 6469,
+   "group": "REVIEW"
+  },
+  {
+   "item": 194,
+   "index": 7311,
+   "group": "PASS"
+  },
+  {
+   "item": 195,
+   "index": 2686,
+   "group": "REVIEW"
+  },
+  {
+   "item": 196,
+   "index": 6491,
+   "group": "PASS"
+  },
+  {
+   "item": 197,
+   "index": 6883,
+   "group": "REVIEW"
+  },
+  {
+   "item": 198,
+   "index": 3681,
+   "group": "REVIEW"
+  },
+  {
+   "item": 199,
+   "index": 9053,
+   "group": "REVIEW"
+  }
+ ],
+ "agreement_seed": 1,
+ "agreement_items": [
+  0,
+  2,
+  5,
+  6,
+  7,
+  16,
+  24,
+  26,
+  30,
+  34,
+  53,
+  55,
+  56,
+  58,
+  65,
+  68,
+  81,
+  97,
+  99,
+  108,
+  110,
+  112,
+  114,
+  115,
+  120,
+  124,
+  126,
+  135,
+  138,
+  145,
+  151,
+  155,
+  166,
+  173,
+  178,
+  185,
+  189,
+  190,
+  193,
+  195
+ ]
+}
