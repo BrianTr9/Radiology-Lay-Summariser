@@ -51,7 +51,13 @@ NOT_COVERED = (
 EXAMPLES = [[by_name(name).report] for name in APP_EXAMPLES]  # self-written
 
 
-@spaces.GPU(duration=30)
+def _gpu_seconds(report: str) -> int:
+    """GPU time to reserve on ZeroGPU, which charges the reservation against the visitor's daily
+    quota. Typical reports draft in under 2 s on the Space; long ones write long drafts."""
+    return 10 if len(report) < 1_500 else 30
+
+
+@spaces.GPU(duration=_gpu_seconds)
 def _draft(report: str) -> dict:
     return run(report, WRITER)
 
