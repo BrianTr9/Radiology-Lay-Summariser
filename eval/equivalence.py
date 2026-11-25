@@ -10,8 +10,8 @@ does and compares them with the stored predictions of the original run, row by r
 
 It reports: the share of identical drafts, ROUGE-Lsum of both sets against the references,
 ROUGE-Lsum between the two sets, and the reading grade of both. It writes only counts and
-row indices (no report text) to eval/results/equivalence.json. Run it on a GPU (Colab) with
-the settings the demo uses; the file records the device and library versions.
+row indices (no report text) to eval/results/equivalence.json. Run it on a GPU with the
+settings the demo uses; the file records the device, GPU and library versions.
 
 Usage: python eval/equivalence.py --predictions <val_predictions.jsonl of the original LoRA r16 run>
 """
