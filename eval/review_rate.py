@@ -26,33 +26,12 @@ sys.path[:0] = [str(ROOT / "src"), str(ROOT / "training"), str(ROOT)]  # course 
 
 from transformers import AutoTokenizer  # noqa: E402
 
-from dataset import (MAX_SOURCE_LEN, SOURCE_COLUMN, TARGET_COLUMN, TASK_PROMPT,  # noqa: E402
-                     build_source_text, evaluation_tiers, load_laysumm)
+from dataset import SOURCE_COLUMN, TARGET_COLUMN, evaluation_tiers, load_laysumm  # noqa: E402
 from laysum.checks import LEVELS, check, strip_junk_tail  # noqa: E402
+from laysum.writer import MAX_SOURCE_TOKENS, TASK_PROMPT, truncation_point  # noqa: E402
 
 THRESHOLD = 0.25
 CODES = ("INPUT_TRUNCATED", "NEGATION_LOST", "CERTAINTY_LOST")
-
-
-def truncation_points(reports, tokenizer, max_len=MAX_SOURCE_LEN):
-    """Character offset in each report where the writer stops reading, or None.
-
-    Matches the course data pipeline: tokenizer(prompt + report, max_length=512,
-    truncation=True) keeps max_len - 1 text tokens and then appends </s>.
-    """
-    start = len(build_source_text("x")) - 1  # where the report begins in the input text
-    assert build_source_text("x")[start:] == "x"
-    points = []
-    for report in reports:
-        text = build_source_text(report)
-        enc = tokenizer(text, return_offsets_mapping=True)
-        if len(enc["input_ids"]) <= max_len:
-            points.append(None)
-            continue
-        first_dropped = enc["offset_mapping"][max_len - 1][0]
-        stripped_lead = len(report) - len(report.lstrip())  # build_source_text strips
-        points.append(first_dropped - start + stripped_lead)
-    return points
 
 
 def rates(sources, drafts, cuts, rows, level):
@@ -87,7 +66,7 @@ def main():
     drafts = [preds[i] for i in range(len(sources))]
 
     tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
-    cuts = truncation_points(sources, tokenizer)
+    cuts = [truncation_point(s, tokenizer) for s in sources]
 
     # Step 1: choose the level on rows outside the clean tier.
     choice = {lvl: rates(sources, drafts, cuts, outside, lvl) for lvl in LEVELS}
@@ -99,7 +78,7 @@ def main():
               for lvl in LEVELS}
     out = {
         "rule": f"sentence level unless its REVIEW rate on rows outside the clean tier > {THRESHOLD}",
-        "prompt": TASK_PROMPT, "max_source_tokens": MAX_SOURCE_LEN,
+        "prompt": TASK_PROMPT, "max_source_tokens": MAX_SOURCE_TOKENS,
         "selection_outside_clean": choice,
         "chosen_level": level,
         "clean_tier": report,
