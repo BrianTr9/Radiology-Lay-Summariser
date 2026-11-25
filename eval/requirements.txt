@@ -1,0 +1,4 @@
+# Extra dependencies of the eval/ scripts, on top of ../requirements.txt.
+datasets==5.1.0
+rouge_score==0.1.2
+numpy==2.4.6
