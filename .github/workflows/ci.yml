@@ -39,3 +39,22 @@ jobs:
           PY
       - if: always()
         run: docker logs laysum || true
+
+  deploy:
+    # Continuous deployment: only after both checks pass, only for pushes to main.
+    needs: [test, docker]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-space
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install huggingface_hub==2.2.0 gradio_client==2.7.2
+      - name: Upload to the Space, wait for it, call the API
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python .github/deploy_space.py

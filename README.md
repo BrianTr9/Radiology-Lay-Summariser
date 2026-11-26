@@ -133,6 +133,7 @@ a negative finding broadened, such as no consolidation written as no pneumonia.
 | Path | Contents |
 |---|---|
 | `app.py`, `Dockerfile` | The Gradio app (review screen and `summarize` API) and its CPU image |
+| `.github/` | CI/CD: lint, tests and a Docker check on every push; on `main`, once both pass, `deploy_space.py` uploads the app to the Space, waits for it to run the new commit and calls its API |
 | `src/laysum/` | `writer.py`, `checks.py`, `pipeline.py`, and the self-written `examples.py` |
 | `models/lora_r16/` | The trained LoRA adapter and its [model card](models/lora_r16/README.md) |
 | `training/` | Data loading, LoRA and full fine-tuning, evaluation tiers, Slurm scripts; `results/` holds each run's metrics (their `git.commit` predates a history rewrite that removed data excerpts) |
