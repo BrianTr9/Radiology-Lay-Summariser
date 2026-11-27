@@ -15,6 +15,7 @@ from .checks import Flag, check, strip_junk_tail
 from .writer import Writer
 
 MAX_REPORT_CHARS = 20_000  # about 5,000 tokens; the writer reads 512 and flags the rest
+SHORT_REPORT_CHARS = 1_500  # below this a report gets the short GPU reservation
 
 
 def gate(flags: List[Flag]) -> str:
@@ -33,6 +34,13 @@ def validate_report(report: str) -> None:
     if len(report) > MAX_REPORT_CHARS:
         raise ValueError(f"The report has {len(report):,} characters; the limit is "
                          f"{MAX_REPORT_CHARS:,}.")
+
+
+def gpu_seconds(report: str) -> int:
+    """GPU time for the app to reserve on ZeroGPU, which charges the reservation against the
+    visitor's daily quota. Typical reports draft in under 2 s on the Space; long ones write
+    long drafts. Kept here, not in app.py, so it can be tested without loading the model."""
+    return 10 if len(report) < SHORT_REPORT_CHARS else 30
 
 
 def run(report: str, writer: Writer, level: str = "sentence") -> Dict[str, Any]:

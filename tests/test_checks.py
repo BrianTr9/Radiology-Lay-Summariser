@@ -5,11 +5,50 @@ AI assistance: drafted with Claude Code; reviewed by the author.
 """
 import pytest
 
+from laysum import checks
 from laysum.checks import check, sentence_spans, strip_junk_tail
+
+# The cue lists written out again on purpose, as the oracle: parametrising over
+# checks.NEGATION itself would delete a word's test together with the word.
+NEGATION_CUES = ("no", "not", "without", "absent", "negative", "neither", "nor", "free of",
+                 "n't", "none", "nothing", "never")
+HEDGE_CUES = ("possible", "possibly", "probable", "probably", "may", "might", "could", "likely",
+              "suspected", "suspicious", "suggest", "suggests", "suggestive",
+              "cannot be excluded", "cannot be ruled out", "can't be ruled out", "not excluded",
+              "maybe", "perhaps", "seem", "seems", "unclear", "uncertain", "not sure")
 
 
 def codes(flags):
     return [f.code for f in flags]
+
+
+def with_cue(cue):
+    # "n't" is glued to its verb; every other cue stands as its own word(s).
+    return "The finding isn't here." if cue == "n't" else f"The finding {cue} here."
+
+
+def test_cue_lists_are_the_ones_tested():
+    # A word added to or dropped from checks.py must be added to or dropped from here too.
+    assert sorted(checks.NEGATION) == sorted(NEGATION_CUES)
+    assert sorted(checks.HEDGE) == sorted(HEDGE_CUES)
+
+
+@pytest.mark.parametrize("cue", NEGATION_CUES)
+def test_every_negation_cue_is_seen(cue):
+    source = with_cue(cue)
+    assert check(source, source) == []
+    flags = check(source, "The finding here.")
+    assert "NEGATION_LOST" in codes(flags)
+    assert flags[codes(flags).index("NEGATION_LOST")].source_spans == ((0, len(source)),)
+
+
+@pytest.mark.parametrize("cue", HEDGE_CUES)
+def test_every_hedge_cue_is_seen(cue):
+    source = with_cue(cue)
+    assert check(source, source) == []
+    flags = check(source, "The finding here.")
+    assert "CERTAINTY_LOST" in codes(flags)
+    assert flags[codes(flags).index("CERTAINTY_LOST")].source_spans == ((0, len(source)),)
 
 
 def test_sentence_split_keeps_decimals():

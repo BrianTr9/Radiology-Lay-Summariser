@@ -20,6 +20,10 @@ from gradio_client import Client
 from huggingface_hub import HfApi
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from laysum.examples import by_name  # noqa: E402
+
+SMOKE_CASE = "finding_and_negation"  # checked for its expected decision, not just a valid one
 SPACE = "BrianTr9/radiology-lay-summariser"
 FILES = ["app.py", "requirements.txt", "README.md", "LICENSE", "src/laysum/*.py",
          "models/lora_r16/*", "docs/review_screen.png", "training/figures/results.png"]
@@ -54,10 +58,15 @@ def main() -> int:
         print("the Space did not reach RUNNING on the new commit in time")
         return 1
 
-    result = Client(SPACE, token=token, verbose=False).predict(
-        "Cardiomegaly. No pneumothorax.", api_name="/summarize")
-    print(result["decision"], result["meta"]["model_version"])
-    return 0 if result["decision"] in ("PASS", "REVIEW") and result["summary"] else 1
+    case = by_name(SMOKE_CASE)
+    result = Client(SPACE, token=token, verbose=False).predict(case.report,
+                                                               api_name="/summarize")
+    got = (result["decision"], tuple(f["code"] for f in result["flags"]))
+    print(*got, result["meta"]["model_version"])
+    if not result["summary"] or got != (case.decision, case.codes):
+        print(f"expected {case.decision} {case.codes} for the {SMOKE_CASE!r} case")
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

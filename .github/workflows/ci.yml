@@ -32,10 +32,16 @@ jobs:
           for i in $(seq 1 60); do curl -sf http://127.0.0.1:7860/ > /dev/null && break; sleep 5; done
           pip install gradio_client==2.7.2
           python - <<'PY'
+          import sys
+          sys.path.insert(0, "src")
           from gradio_client import Client
-          result = Client("http://127.0.0.1:7860").predict("Cardiomegaly. No pneumothorax.", api_name="/summarize")
+          from laysum.examples import by_name
+          case = by_name("finding_and_negation")  # the expected decision, not just a valid one
+          result = Client("http://127.0.0.1:7860").predict(case.report, api_name="/summarize")
           print(result)
-          assert result["decision"] in ("PASS", "REVIEW") and result["summary"]
+          assert result["summary"], "empty summary"
+          assert result["decision"] == case.decision, (result["decision"], case.decision)
+          assert tuple(f["code"] for f in result["flags"]) == case.codes, result["flags"]
           PY
       - if: always()
         run: docker logs laysum || true

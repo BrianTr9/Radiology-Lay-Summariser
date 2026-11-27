@@ -26,7 +26,7 @@ import gradio as gr  # noqa: E402
 import spaces  # noqa: E402
 
 from laysum.examples import APP_EXAMPLES, by_name  # noqa: E402
-from laysum.pipeline import MAX_REPORT_CHARS, highlight, run, validate_report  # noqa: E402
+from laysum.pipeline import MAX_REPORT_CHARS, gpu_seconds, highlight, run, validate_report  # noqa: E402
 from laysum.writer import FlanT5Writer  # noqa: E402
 
 log = logging.getLogger("laysum.app")
@@ -54,13 +54,7 @@ EXAMPLES = [[by_name(name).report] for name in APP_EXAMPLES]  # self-written
 CSS = "#report-view .textfield { word-break: normal; overflow-wrap: anywhere; line-height: 1.6; }"
 
 
-def _gpu_seconds(report: str) -> int:
-    """GPU time to reserve on ZeroGPU, which charges the reservation against the visitor's daily
-    quota. Typical reports draft in under 2 s on the Space; long ones write long drafts."""
-    return 10 if len(report) < 1_500 else 30
-
-
-@spaces.GPU(duration=_gpu_seconds)
+@spaces.GPU(duration=gpu_seconds)
 def _draft(report: str) -> dict:
     return run(report, WRITER)
 

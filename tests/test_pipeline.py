@@ -76,9 +76,20 @@ def test_empty_report_is_rejected_without_calling_the_writer(bad):
     assert fake.calls == []
 
 
-def test_overlong_report_is_rejected():
+def test_report_length_limit_is_inclusive():
+    # Both sides of the boundary: a test far past it cannot tell > from >=.
+    limit = pipeline.MAX_REPORT_CHARS
+    fake = FakeWriter("x")
+    pipeline.run("a" * limit, fake)
+    assert len(fake.calls) == 1
     with pytest.raises(ValueError, match="limit"):
-        pipeline.run("a " * pipeline.MAX_REPORT_CHARS, FakeWriter("x"))
+        pipeline.run("a" * (limit + 1), fake)
+    assert len(fake.calls) == 1
+
+
+@pytest.mark.parametrize("length, seconds", [(1, 10), (1_499, 10), (1_500, 30), (20_000, 30)])
+def test_gpu_reservation_switches_at_1500_characters(length, seconds):
+    assert pipeline.gpu_seconds("a" * length) == seconds
 
 
 def test_gate_is_any_flag():
