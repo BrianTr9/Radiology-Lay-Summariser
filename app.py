@@ -49,6 +49,9 @@ NOT_COVERED = (
     "finding it states differently. A PASS means no flag fired, not that the draft is correct."
 )
 EXAMPLES = [[by_name(name).report] for name in APP_EXAMPLES]  # self-written
+# Gradio's HighlightedText sets word-break: break-all and a tall line height, which split words
+# mid-way ("edem" / "a.") and space the report lines far apart; wrap at word boundaries instead.
+CSS = "#report-view .textfield { word-break: normal; overflow-wrap: anywhere; line-height: 1.6; }"
 
 
 def _gpu_seconds(report: str) -> int:
@@ -113,7 +116,8 @@ with gr.Blocks(title="Radiology Lay Summariser", analytics_enabled=False) as dem
             draft_box = gr.Textbox(label="Draft for the patient (to be checked)", lines=6,
                                    interactive=False)
             report_view = gr.HighlightedText(label="Report, with the sentences behind each flag",
-                                             color_map=COLOURS, show_legend=True)
+                                             color_map=COLOURS, show_legend=True,
+                                             elem_id="report-view")
             gr.Markdown(NOT_COVERED)
     run_button.click(review, inputs=report_box, outputs=[decision_box, draft_box, report_view],
                      api_visibility="private")
@@ -123,4 +127,4 @@ with gr.Blocks(title="Radiology Lay Summariser", analytics_enabled=False) as dem
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
     logging.getLogger("httpx").setLevel(logging.WARNING)
-    demo.launch(footer_links=["api"])
+    demo.launch(footer_links=["api"], css=CSS)
