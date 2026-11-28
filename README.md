@@ -14,6 +14,9 @@ short_description: Plain-language drafts of chest X-ray reports for review
 
 # Radiology Lay Summariser
 
+[![CI](https://github.com/BrianTr9/Radiology-Lay-Summariser/actions/workflows/ci.yml/badge.svg)](https://github.com/BrianTr9/Radiology-Lay-Summariser/actions/workflows/ci.yml)
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/BrianTr9/radiology-lay-summariser)
+
 A research prototype that drafts a plain-language summary of a chest X-ray report for a
 clinician to check, and sends the draft to **REVIEW** when it may have lost a negation, lost
 the report's uncertainty, or missed the end of a long report.
@@ -48,6 +51,10 @@ report ─► writer: FLAN-T5-base + LoRA (r = 16) ─► rule-based flags ─�
 
 ## Run it
 
+On Linux without a GPU, first run
+`pip install --index-url https://download.pytorch.org/whl/cpu torch==2.13.0`: plain `pip`
+installs the CUDA build of torch there (about 5 GB with its libraries). Then:
+
 ```bash
 git clone https://github.com/BrianTr9/Radiology-Lay-Summariser.git && cd Radiology-Lay-Summariser
 pip install -e .        # Python 3.12; or: docker build -t laysum .
@@ -56,10 +63,7 @@ python app.py           # or: docker run -p 7860:7860 laysum
 
 Open http://localhost:7860. The first run downloads the base model `google/flan-t5-base`
 (about 1 GB, pinned to one commit); the adapter ships in this repository. No account or
-token is needed. On Linux without a GPU, run
-`pip install --index-url https://download.pytorch.org/whl/cpu torch==2.13.0` first: plain
-`pip` installs the CUDA build of torch there (about 5 GB with its libraries). The same
-function is an API:
+token is needed. The same function is an API:
 
 ```python
 from gradio_client import Client
@@ -133,7 +137,7 @@ a negative finding broadened, such as no consolidation written as no pneumonia.
 | Path | Contents |
 |---|---|
 | `app.py`, `Dockerfile` | The Gradio app (review screen and `summarize` API) and its CPU image |
-| `.github/` | CI/CD: lint, tests and a Docker check on every push; on `main`, once both pass, `deploy_space.py` uploads the app to the Space, waits for it to run the new commit and calls its API |
+| `.github/` | CI/CD: lint, tests and a Docker check on every push; on `main`, once both pass, `deploy_space.py` uploads the app to the Space, waits for it to run the new commit, then checks that its API gives the expected decision on a self-written report |
 | `src/laysum/` | `writer.py`, `checks.py`, `pipeline.py`, and the self-written `examples.py` |
 | `models/lora_r16/` | The trained LoRA adapter and its [model card](models/lora_r16/README.md) |
 | `training/` | Data loading, LoRA and full fine-tuning, evaluation tiers, Slurm scripts; `results/` holds each run's metrics (their `git.commit` predates a history rewrite that removed data excerpts) |
